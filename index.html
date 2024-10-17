@@ -1,127 +1,88 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LINE LIFF Demo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-        h1 {
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-    </style>
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <title>使用者資料登入</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
 </head>
 <body>
-    <h1>LINE LIFF Demo</h1>
-    <div class="form-group">
-        <label for="userId">User ID:</label>
-        <input type="text" id="userId" readonly>
-    </div>
 
-    <div class="form-group">
-        <label for="serviceCenter">單位:</label>
-        <select id="serviceCenter">
-            <option value="ticketCenter" selected>票務中心1</option>
-        </select>
-    </div>
+    <form class="w-75 mx-auto">
+        <p class="mt-3">名子</p>
+        <div>
+            <input class="form-control w-100 mt-1" name="name" placeholder="" required>
+        </div>
+        <p class="mt-3">工號</p>
+        <div>
+            <input class="form-control w-100 mt-1" name="udetate" required>
+        </div>
+        <p class="mt-3">單位</p>
+        <div>
+            <input class="form-control w-100 mt-1" name="fukkin" required>
+        </div>
+        <p class="mt-3">你好</p>
+        <div>
+            <input class="form-control w-100 mt-1" name="haikin" required>
+        </div>
+        <p class="mt-3">スクワット</p>
+        <div>
+            <input class="form-control w-100 mt-1" name="sukuwat" required>
+        </div>
+        <input type="submit" class="mt-4 btn btn-primary" value="送出">
+    </form>
 
-    <div class="form-group">
-        <label for="name">姓名:</label>
-        <input type="text" id="name">
-    </div>
-
-    <div class="form-group">
-        <label for="employeeId">工號:</label>
-        <input type="text" id="employeeId">
-    </div>
-
-    <button id="submitButton">送出</button>
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
-        function initializeLIFF() {
-            liff.init({ liffId: '2006469855-W20vyGax' })
-                .then(() => {
-                    console.log("LIFF initialized");
-                    if (liff.isLoggedIn()) {
-                        console.log("User is logged in");
-                        liff.getProfile().then(profile => {
-                            document.getElementById('userId').value = profile.userId; // 將 User ID 塞入欄位
-                        }).catch(err => console.error(err));
-                    } else {
-                        console.log("User is not logged in");
-                        liff.login();
-                    }
-                })
-                .catch(err => console.error('LIFF init error:', err));
+
+        $(document).ready(function () {
+            const liffId = "2006469855-W20vyGax";
+            initializeLiff(liffId);
+        })
+
+        function initializeLiff(liffId) {
+            liff.init({
+                liffId: liffId
+            }).then(() => {
+                initializeApp();
+            }).catch((err) => {
+                console.log('LIFF Initialization failed ', err);
+            });
         }
 
-        window.onload = function() {
+        function sendText(text) {
+            liff.sendMessages([{
+                'type': 'text',
+                'text': text
+            }]).then(function () {
+                liff.closeWindow();
+            }).catch(function (error) {
+                window.alert('Failed to send message ' + error);
+            });
+        }
 
-            initializeLIFF();
-        };
+        const params = (new URL(document.location)).searchParams;
+        const key = params.get('key');
 
-        document.getElementById('submitButton').addEventListener('click', () => {
-            const userId = document.getElementById('userId').value;
-            const serviceCenter = document.getElementById('serviceCenter').value;
-            const name = document.getElementById('name').value;
-            const employeeId = document.getElementById('employeeId').value;
-
-            const data = {
-                userId,
-                serviceCenter,
-                name,
-                employeeId
-            };
-
-            fetch('https://script.google.com/macros/s/AKfycbwjDC1aiT01i4E3cUcQmWbU6gJh-Y_VpR5kmf8AR_IuUYHX8q3XrJVbj5NXL-PlH0vY/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // 在這裡可以處理成功回應
-            })
-            .catch((error) => {
-                console.error('Error:', error);
+        $(function () {
+            $('form').submit(function () {
+                const name    = $('input[name="name"]').val();
+                const udetate = $('input[name="udetate"]').val();
+                const fukkin  = $('input[name="fukkin"]').val();
+                const haikin  = $('input[name="haikin"]').val();
+                const sukuwat = $('input[name="sukuwat"]').val();
+                const msg = `${name}\n${udetate}\n${fukkin}\n${haikin}\n${sukuwat}`;
+                sendText(msg);
+                return false;
             });
         });
+
     </script>
+
 </body>
 </html>
