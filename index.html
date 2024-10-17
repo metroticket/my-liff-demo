@@ -9,19 +9,35 @@
 <body>
     <h1>LINE LIFF Demo</h1>
     <div id="userInfo"></div>
+    
+    <div>
+        <label for="userId">User ID:</label>
+        <input type="text" id="userId" readonly>
+    </div>
+
+    <div>
+        <label for="serviceCenter">服務中心:</label>
+        <select id="serviceCenter">
+            <option value="ticketCenter" selected>票務中心</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="name">姓名:</label>
+        <input type="text" id="name">
+    </div>
+
     <script>
         liff.init({ liffId: '2006469421-qy0vkJPL' })
-    .then(() => {
-        console.log("LIFF initialized");
-        if (liff.isLoggedIn()) {
-            console.log("User is logged in");
-        } else {
-            console.log("User is not logged in");
-            liff.login();
-        }
-    })
-    .catch(err => console.error('LIFF init error:', err));
+            .then(() => {
+                console.log("LIFF initialized");
+                if (liff.isLoggedIn()) {
+                    console.log("User is logged in");
+                    liff.getProfile().then(profile => {
+                        document.getElementById('userId').value = profile.userId; // 將 User ID 塞入欄位
+                    }).catch(err => console.error(err));
                 } else {
+                    console.log("User is not logged in");
                     liff.login();
                 }
             })
