@@ -10,11 +10,12 @@
     <h1>LINE LIFF Demo</h1>
     <div id="userInfo"></div>
     <script>
-        liff.init({ liffId: '你的 LIFF ID' })
+        liff.init({ liffId: '2006469421-qy0vkJPL' })
             .then(() => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
-                        document.getElementById('userInfo').innerText = 'Hello, ' + profile.displayName;
+                        const userInfoDiv = document.getElementById('userInfo');
+                        userInfoDiv.innerHTML = 'Hello, ' + profile.displayName + '<br>User ID: ' + profile.userId;
                     }).catch(err => console.error(err));
                 } else {
                     liff.login();
