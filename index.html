@@ -54,7 +54,7 @@
     <div class="form-group">
         <label for="serviceCenter">單位:</label>
         <select id="serviceCenter">
-            <option value="ticketCenter" selected>票務中心1</option>
+            <option value="ticketCenter" selected>票務中心</option>
         </select>
     </div>
 
@@ -89,6 +89,7 @@
         }
 
         window.onload = function() {
+            location.reload(); // 自動重整
             initializeLIFF();
         };
 
