@@ -54,7 +54,7 @@
     <div class="form-group">
         <label for="serviceCenter">單位:</label>
         <select id="serviceCenter">
-            <option value="ticketCenter" selected>票務中心</option>
+            <option value="ticketCenter" selected>票務中心1</option>
         </select>
     </div>
 
@@ -71,20 +71,26 @@
     <button id="submitButton">送出</button>
 
     <script>
-        liff.init({ liffId: '2006469855-W20vyGax' })
-            .then(() => {
-                console.log("LIFF initialized");
-                if (liff.isLoggedIn()) {
-                    console.log("User is logged in");
-                    liff.getProfile().then(profile => {
-                        document.getElementById('userId').value = profile.userId; // 將 User ID 塞入欄位
-                    }).catch(err => console.error(err));
-                } else {
-                    console.log("User is not logged in");
-                    liff.login();
-                }
-            })
-            .catch(err => console.error('LIFF init error:', err));
+        function initializeLIFF() {
+            liff.init({ liffId: '2006469855-W20vyGax' })
+                .then(() => {
+                    console.log("LIFF initialized");
+                    if (liff.isLoggedIn()) {
+                        console.log("User is logged in");
+                        liff.getProfile().then(profile => {
+                            document.getElementById('userId').value = profile.userId; // 將 User ID 塞入欄位
+                        }).catch(err => console.error(err));
+                    } else {
+                        console.log("User is not logged in");
+                        liff.login();
+                    }
+                })
+                .catch(err => console.error('LIFF init error:', err));
+        }
+
+        window.onload = function() {
+            initializeLIFF();
+        };
 
         document.getElementById('submitButton').addEventListener('click', () => {
             const userId = document.getElementById('userId').value;
