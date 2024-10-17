@@ -52,7 +52,7 @@
     </div>
 
     <div class="form-group">
-        <label for="serviceCenter">服務中心:</label>
+        <label for="serviceCenter">單位:</label>
         <select id="serviceCenter">
             <option value="ticketCenter" selected>票務中心</option>
         </select>
@@ -99,7 +99,7 @@
                 employeeId
             };
 
-            fetch('YOUR_SCRIPT_URL', {
+            fetch('https://script.google.com/macros/s/AKfycbwjDC1aiT01i4E3cUcQmWbU6gJh-Y_VpR5kmf8AR_IuUYHX8q3XrJVbj5NXL-PlH0vY/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
