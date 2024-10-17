@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE LIFF Demo</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+    <h1>LINE LIFF Demo</h1>
+    <div id="userInfo"></div>
+    <script>
+        liff.init({ liffId: '你的 LIFF ID' })
+            .then(() => {
+                if (liff.isLoggedIn()) {
+                    liff.getProfile().then(profile => {
+                        document.getElementById('userInfo').innerText = 'Hello, ' + profile.displayName;
+                    }).catch(err => console.error(err));
+                } else {
+                    liff.login();
+                }
+            })
+            .catch(err => console.error('LIFF init error:', err));
+    </script>
+</body>
+</html>
