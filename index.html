@@ -4,28 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LINE LIFF Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
     <h1>LINE LIFF Demo</h1>
-    <div id="userInfo"></div>
-    
-    <div>
+    <div class="form-group">
         <label for="userId">User ID:</label>
         <input type="text" id="userId" readonly>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="serviceCenter">服務中心:</label>
         <select id="serviceCenter">
             <option value="ticketCenter" selected>票務中心</option>
         </select>
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="name">姓名:</label>
         <input type="text" id="name">
     </div>
+
+    <div class="form-group">
+        <label for="employeeId">工號:</label>
+        <input type="text" id="employeeId">
+    </div>
+
+    <button id="submitButton">送出</button>
 
     <script>
         liff.init({ liffId: '2006469421-qy0vkJPL' })
@@ -42,6 +85,36 @@
                 }
             })
             .catch(err => console.error('LIFF init error:', err));
+
+        document.getElementById('submitButton').addEventListener('click', () => {
+            const userId = document.getElementById('userId').value;
+            const serviceCenter = document.getElementById('serviceCenter').value;
+            const name = document.getElementById('name').value;
+            const employeeId = document.getElementById('employeeId').value;
+
+            const data = {
+                userId,
+                serviceCenter,
+                name,
+                employeeId
+            };
+
+            fetch('YOUR_SCRIPT_URL', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // 在這裡可以處理成功回應
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
     </script>
 </body>
 </html>
