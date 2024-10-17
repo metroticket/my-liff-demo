@@ -11,12 +11,16 @@
     <div id="userInfo"></div>
     <script>
         liff.init({ liffId: '2006469421-qy0vkJPL' })
-            .then(() => {
-                if (liff.isLoggedIn()) {
-                    liff.getProfile().then(profile => {
-                        const userInfoDiv = document.getElementById('userInfo');
-                        userInfoDiv.innerHTML = 'Hello, ' + profile.displayName + '<br>User ID: ' + profile.userId;
-                    }).catch(err => console.error(err));
+    .then(() => {
+        console.log("LIFF initialized");
+        if (liff.isLoggedIn()) {
+            console.log("User is logged in");
+        } else {
+            console.log("User is not logged in");
+            liff.login();
+        }
+    })
+    .catch(err => console.error('LIFF init error:', err));
                 } else {
                     liff.login();
                 }
