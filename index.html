@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE Bot LIFF</title>
+    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 20px; padding: 10px; background-color: #0072B8; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #005F8C; }
+    </style>
+</head>
+<body>
+    <h1>LINE Bot LIFF 功能</h1>
+    <div id="userId"></div>
+    <label for="ticketCenter">票務中心:</label>
+    <select id="ticketCenter">
+        <option value="ticketCenter1">票務中心 1</option>
+        <!-- 可以在這裡新增更多選項 -->
+    </select>
+    
+    <label for="employeeId">工號:</label>
+    <input type="text" id="employeeId" placeholder="請輸入工號" required>
+
+    <label for="name">姓名:</label>
+    <input type="text" id="name" placeholder="請輸入姓名" required>
+
+    <button id="submitBtn">送出</button>
+
+    <script>
+        window.onload = function() {
+            liff.init({ liffId: '2006468356-NWqEbaYl' }, () => {
+                if (liff.isLoggedIn()) {
+                    liff.getProfile().then(profile => {
+                        document.getElementById('userId').innerText = '使用者 ID: ' + profile.userId;
+                    }).catch(err => console.error(err));
+                } else {
+                    liff.login();
+                }
+            }, err => console.error(err));
+
+            document.getElementById('submitBtn').addEventListener('click', () => {
+                const ticketCenter = document.getElementById('ticketCenter').value;
+                const employeeId = document.getElementById('employeeId').value;
+                const name = document.getElementById('name').value;
+
+                // 這裡可以處理送出資料的邏輯，例如發送到伺服器
+                console.log('票務中心:', ticketCenter);
+                console.log('工號:', employeeId);
+                console.log('姓名:', name);
+            });
+        };
+    </script>
+</body>
+</html>
