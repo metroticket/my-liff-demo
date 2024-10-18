@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>票務中心機器人系統</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
@@ -65,11 +66,7 @@
         <label for="unit">單位:</label>
         <select id="unit">
             <option value="票務中心">票務中心</option>
-            <option value="其他單位">其他單位1</option>
-            <option value="其他單位">其他單位2</option>
-            <option value="其他單位">其他單位3</option>
-            <option value="其他單位">其他單位4</option>
-            <option value="其他單位">其他單位5</option>
+            <option value="其他單位">其他單位</option>
         </select>
 
         <label for="employeeId">工號:</label>
@@ -107,7 +104,7 @@
 
                     // 檢查工號和姓名是否為空
                     if (!employeeId || !name) {
-                        document.getElementById('error-message').innerText = '工號和姓名不能為空';
+                        errorMessageDiv.innerText = '工號和姓名不能為空';
                         errorMessageDiv.style.display = 'block'; // 顯示錯誤訊息
                         return; // 不發送訊息
                     }
