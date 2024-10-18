@@ -51,6 +51,11 @@
         button:hover {
             background-color: #d1a3f0; /* 按鈕懸停顏色 */
         }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            display: none; /* 初始隱藏 */
+        }
     </style>
 </head>
 <body>
@@ -71,7 +76,7 @@
         <input type="text" id="name" placeholder="請輸入姓名">
 
         <button id="submit">送出</button>
-         <div class="error-message" id="error-message"></div>
+        <div class="error-message" id="error-message"></div>
     </div>
 
     <script>
@@ -94,19 +99,19 @@
                     const employeeId = document.getElementById('employeeId').value;
                     const name = document.getElementById('name').value;
 
-                    const message = `功能: 身分驗證\n單位: ${unit}\n工號: ${employeeId}\n姓名: ${name}`;
-                    sendMessageToLineBot(message); // 發送消息
+                    const errorMessageDiv = document.getElementById('error-message');
+                    errorMessageDiv.style.display = 'none'; // 隱藏錯誤訊息
 
+                    // 檢查工號和姓名是否為空
                     if (!employeeId || !name) {
-                        const errorMessageTextArea = document.getElementById('error-message');
-                        errorMessageTextArea.value = '工號和姓名不能為空';
-                        errorMessageTextArea.style.display = 'block'; // 顯示文字區域
-                        return;
+                        errorMessageDiv.innerText = '工號和姓名不能為空';
+                        errorMessageDiv.style.display = 'block'; // 顯示錯誤訊息
+                        return; // 不發送訊息
                     }
 
-                    // 將物件轉換為 JSON 字串
-                    const messageJson = JSON.stringify(message);
-                    sendMessageToLineBot(messageJson); // 發送 JSON 消息
+                    // 組合純文字消息
+                    const message = `功能: 身分驗證\n單位: ${unit}\n工號: ${employeeId}\n姓名: ${name}`;
+                    sendMessageToLineBot(message); // 發送消息
                 });
             })
             .catch(err => {
