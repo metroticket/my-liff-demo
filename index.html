@@ -82,17 +82,19 @@
     <script>
         var liffID = '2006470777-bjYQ9xv0'; // 替換為你的 LIFF ID
 
-        liff.init({ liffId: liffID })
-            .then(() => {
-                console.log('LIFF init');
-                liff.getProfile()
-                    .then(profile => {
-                        const userId = profile.userId; // 獲取 userId
-                        document.getElementById('userId').innerText = '使用者 ID: ' + userId; // 顯示使用者 ID
-                    })
-                    .catch(err => {
-                        console.error('獲取使用者資料時發生錯誤:', err);
-                    });
+liff.init({ liffId: liffID })
+    .then(() => {
+        console.log('LIFF init');
+        return liff.getProfile(); // 確保使用 return 繼續鏈接
+    })
+    .then(profile => {
+        const userId = profile.userId; // 獲取 userId
+        document.getElementById('userId').innerText = '使用者 ID: ' + userId; // 顯示使用者 ID
+    })
+    .catch(err => {
+        console.error('獲取使用者資料時發生錯誤:', err);
+        document.getElementById('userId').innerText = '獲取使用者 ID 失敗';
+    });
 
                 // 綁定按鈕事件
                 document.getElementById('submit').addEventListener('click', () => {
