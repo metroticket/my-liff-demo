@@ -104,7 +104,7 @@
 
                     // 檢查工號和姓名是否為空
                     if (!employeeId || !name) {
-                        errorMessageDiv.innerText = '工號和姓名不能為空';
+                        document.getElementById('employeeId').innerText = '工號和姓名不能為空';
                         errorMessageDiv.style.display = 'block'; // 顯示錯誤訊息
                         return; // 不發送訊息
                     }
