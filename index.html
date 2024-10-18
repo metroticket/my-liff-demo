@@ -92,10 +92,15 @@
                     const unit = document.getElementById('unit').value;
                     const employeeId = document.getElementById('employeeId').value;
                     const name = document.getElementById('name').value;
-                    const message = `單位: ${unit}, 工號: ${employeeId}, 姓名: ${name}`;
+                     const message = {
+                    功能: "身分驗證",
+                    單位: unit,
+                    工號: employeeId,
+                    姓名: name
+                    };
 
-                    // 傳送訊息到 LINE Bot
-                    sendMessageToLineBot(message);
+                // 將物件轉換為 JSON 字串
+                const messageJson = JSON.stringify(message);
                 });
             })
             .catch(err => {
