@@ -11,11 +11,13 @@
         input, select { width: 100%; padding: 8px; margin-top: 5px; }
         button { margin-top: 20px; padding: 10px; background-color: #0072B8; color: white; border: none; cursor: pointer; }
         button:hover { background-color: #005F8C; }
+        .user-info { margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
     <h1>LINE Bot LIFF 功能</h1>
-    <div id="userId"></div>
+    <div class="user-info" id="userId">使用者 ID: 載入中...</div>
+    
     <label for="ticketCenter">票務中心:</label>
     <select id="ticketCenter">
         <option value="ticketCenter1">票務中心 1</option>
@@ -31,11 +33,14 @@
     <button id="submitBtn">送出</button>
 
     <script>
+        let userId = '';
+
         window.onload = function() {
             liff.init({ liffId: '2006468356-NWqEbaYl' }, () => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
-                        document.getElementById('userId').innerText = '使用者 ID: ' + profile.userId;
+                        userId = profile.userId; // 存儲 userId
+                        document.getElementById('userId').innerText = '使用者 ID: ' + userId; // 顯示使用者 ID
                     }).catch(err => console.error(err));
                 } else {
                     liff.login();
@@ -47,7 +52,8 @@
                 const employeeId = document.getElementById('employeeId').value;
                 const name = document.getElementById('name').value;
 
-                // 這裡可以處理送出資料的邏輯，例如發送到伺服器
+                // 處理送出資料的邏輯
+                console.log('使用者 ID:', userId);
                 console.log('票務中心:', ticketCenter);
                 console.log('工號:', employeeId);
                 console.log('姓名:', name);
