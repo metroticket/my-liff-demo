@@ -71,7 +71,7 @@
         <input type="text" id="name" placeholder="請輸入姓名">
 
         <button id="submit">送出</button>
-        <textarea id="error-message" style="display: none; width: 100%; height: 60px; color: red;"></textarea>
+         <div class="error-message" id="error-message"></div>
     </div>
 
     <script>
@@ -94,12 +94,8 @@
                     const employeeId = document.getElementById('employeeId').value;
                     const name = document.getElementById('name').value;
 
-                    const message = {
-                        功能: "身分驗證",
-                        單位: unit,
-                        工號: employeeId,
-                        姓名: name
-                    };
+                    const message = `功能: 身分驗證\n單位: ${unit}\n工號: ${employeeId}\n姓名: ${name}`;
+                    sendMessageToLineBot(message); // 發送消息
 
                     if (!employeeId || !name) {
                         const errorMessageTextArea = document.getElementById('error-message');
