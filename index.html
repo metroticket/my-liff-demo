@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>票務中心系統</title>
+        <title>票務中心系統</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         body {
@@ -111,14 +111,26 @@
                         return;
                     }
 
-                    // 暫時只關閉 LIFF 應用
-                    console.log('關閉 LIFF 應用');
-                    liff.closeWindow();
+                    const message = 單位: ${unit}, 工號: ${employeeId}, 姓名: ${name};
+                    sendMessageToLineBot(message);
                 });
             })
             .catch(err => {
                 console.error('LIFF 初始化時發生錯誤:', err);
             });
+
+        function sendMessageToLineBot(message) {
+            console.log('發送訊息:', message); // 調試信息
+            liff.sendMessages([{
+                type: 'text',
+                text: message
+            }]).then(() => {
+                console.log('訊息發送成功');
+                liff.closeWindow(); // 關閉 LIFF
+            }).catch((err) => {
+                console.error('發送訊息時發生錯誤:', err);
+            });
+        }
     </script>
 </body>
 </html>
