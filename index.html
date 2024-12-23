@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>票務中心機器人系統</title>
+    <title>票務中心權限開通系統</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         body {
@@ -21,6 +21,7 @@
             font-weight: bold;
             font-size: 18px;
             text-align: center;
+            display: none; /* 隱藏使用者 ID */
         }
         .form-group {
             margin-top: 20px;
@@ -60,7 +61,7 @@
 </head>
 <body>
     <h1>身分驗證系統</h1>
-    <div class="user-info" id="userId">使用者 ID: 載入中...</div>
+    <div class="user-info" id="userId">使用者 ID: 載入中...</div> <!-- 使用者 ID 隱藏 -->
 
     <div class="form-group">
         <label for="unit">單位:</label>
@@ -91,7 +92,8 @@
                 liff.getProfile()
                     .then(profile => {
                         const userId = profile.userId; // 獲取 userId
-                        document.getElementById('userId').innerText = '使用者 ID: ' + userId; // 顯示使用者 ID
+                        // 使用 userId，但不顯示在 UI 上
+                        console.log('User ID:', userId);  // 在控制台顯示，或用於後端處理
                     })
                     .catch(err => {
                         console.error('獲取使用者資料時發生錯誤:', err);
