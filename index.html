@@ -93,25 +93,26 @@
                         console.error('獲取使用者資料時發生錯誤:', err);
                     });
 
-                document.getElementById('submit').addEventListener('click', () => {
-                    const unit = document.getElementById('unit').value;
-                    const employeeId = document.getElementById('employeeId').value;
-                    const name = document.getElementById('name').value;
+document.getElementById('submit').addEventListener('click', () => {
+    const unit = document.getElementById('unit').innerText; // 取得顯示的單位文字
+    const employeeId = document.getElementById('employeeId').value;
+    const name = document.getElementById('name').value;
 
-                    const errorMessageDiv = document.getElementById('error-message');
-                    errorMessageDiv.style.display = 'none'; // 隱藏錯誤訊息
+    const errorMessageDiv = document.getElementById('error-message');
+    errorMessageDiv.style.display = 'none'; // 隱藏錯誤訊息
 
-                    // 檢查工號和姓名是否為空
-                    if (!employeeId || !name) {
-                        errorMessageDiv.innerText = '工號和姓名不能為空';
-                        errorMessageDiv.style.display = 'block'; // 顯示錯誤訊息
-                        return; // 不發送訊息
-                    }
+    // 檢查工號和姓名是否為空
+    if (!employeeId || !name) {
+        errorMessageDiv.innerText = '工號和姓名不能為空';
+        errorMessageDiv.style.display = 'block'; // 顯示錯誤訊息
+        return; // 不發送訊息
+    }
 
-                    // 組合純文字消息
-                    const message = `功能: 身分驗證\n單位: ${unit}\n工號: ${employeeId}\n姓名: ${name}`;
-                    sendMessageToLineBot(message); // 發送消息
-                });
+    // 組合純文字消息
+    const message = `功能: 身分驗證\n單位: ${unit}\n工號: ${employeeId}\n姓名: ${name}`;
+    sendMessageToLineBot(message); // 發送消息
+});
+
             })
             .catch(err => {
                 console.error('LIFF 初始化時發生錯誤:', err);
