@@ -31,7 +31,7 @@
             margin-bottom: 5px;
             font-size: 16px;
         }
-        input, select {
+        input {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -65,15 +65,7 @@
 
     <div class="form-group">
         <label for="unit">單位:</label>
-        <select id="unit">
-            <option value="票務中心">桃園捷運</option>
-            <option value="站務中心">站務中心</option>
-            <option value="車務中心">車務中心</option>
-            <option value="行控中心">行控中心</option>
-            <option value="運規組">運規組</option>
-            <option value="其他單位">票務中心</option>
-
-        </select>
+        <input type="text" id="unit" value="桃園捷運" readonly> <!-- 直接寫定單位，且設為只讀 -->
 
         <label for="employeeId">工號:</label>
         <input type="text" id="employeeId" placeholder="請輸入工號">
