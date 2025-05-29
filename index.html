@@ -44,6 +44,10 @@
             margin-right: 15px;
             font-size: 16px;
         }
+        .other-input {
+            display: none;
+            margin-top: 10px;
+        }
         button {
             width: 100%;
             padding: 12px;
@@ -75,7 +79,11 @@
             <label><input type="radio" name="unit" value="台北捷運"> 台北捷運</label>
             <label><input type="radio" name="unit" value="高雄捷運"> 高雄捷運</label>
             <label><input type="radio" name="unit" value="新北捷運"> 新北捷運</label>
+            <label><input type="radio" name="unit" value="其他" id="otherRadio"> 其他</label>
         </div>
+
+        <!-- 自訂單位輸入框 -->
+        <input type="text" id="otherUnitInput" class="other-input" placeholder="請輸入其他單位名稱">
 
         <label for="employeeId">工號:</label>
         <input type="text" id="employeeId" placeholder="請輸入工號">
@@ -88,7 +96,25 @@
     </div>
 
     <script>
-        var liffID = '2006470777-4Ldz1QA5'; // 替換為你的 LIFF ID
+        const liffID = '2006470777-4Ldz1QA5';
+
+        // 顯示/隱藏「其他」輸入框
+        document.addEventListener('DOMContentLoaded', () => {
+            const otherRadio = document.getElementById('otherRadio');
+            const otherInput = document.getElementById('otherUnitInput');
+
+            const radios = document.querySelectorAll('input[name="unit"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (otherRadio.checked) {
+                        otherInput.style.display = 'block';
+                    } else {
+                        otherInput.style.display = 'none';
+                        otherInput.value = ''; // 清除內容避免殘留
+                    }
+                });
+            });
+        });
 
         liff.init({ liffId: liffID })
             .then(() => {
@@ -103,19 +129,31 @@
                     });
 
                 document.getElementById('submit').addEventListener('click', () => {
-                    const unitRadio = document.querySelector('input[name="unit"]:checked');
-                    const unit = unitRadio ? unitRadio.value : '';
+                    const selectedRadio = document.querySelector('input[name="unit"]:checked');
+                    const otherInput = document.getElementById('otherUnitInput');
                     const employeeId = document.getElementById('employeeId').value.trim();
                     const name = document.getElementById('name').value.trim();
                     const errorMessageDiv = document.getElementById('error-message');
+                    let unit = '';
 
                     errorMessageDiv.style.display = 'none';
 
-                    // 驗證欄位
-                    if (!unit) {
+                    // 單位選擇判斷
+                    if (!selectedRadio) {
                         errorMessageDiv.innerText = '請選擇單位';
                         errorMessageDiv.style.display = 'block';
                         return;
+                    }
+
+                    if (selectedRadio.value === '其他') {
+                        unit = otherInput.value.trim();
+                        if (!unit) {
+                            errorMessageDiv.innerText = '請輸入其他單位名稱';
+                            errorMessageDiv.style.display = 'block';
+                            return;
+                        }
+                    } else {
+                        unit = selectedRadio.value;
                     }
 
                     if (!employeeId || !name) {
@@ -124,7 +162,6 @@
                         return;
                     }
 
-                    // 組合並發送訊息
                     const message = `功能: 身分驗證\n單位: ${unit}\n工號: ${employeeId}\n姓名: ${name}`;
                     sendMessageToLineBot(message);
                 });
